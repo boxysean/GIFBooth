@@ -2,10 +2,12 @@
 
 import ConfigParser
 import subprocess
-from flask import Flask
+from flask import Flask, send_file
 from datetime import datetime
 from time import sleep
 import os
+
+import random
 
 app = Flask(__name__)
 
@@ -17,7 +19,17 @@ def snap():
 
 	subprocess.call(["gphoto2", "--capture-image-and-download", "--filename=%s" % (fileName)])
 
-	sleep(10)
+	sleep(5)
+
+	return send_file(fileName)
+
+@app.route("/somePhoto")
+def somePhoto():
+	photos = os.listdir(config.get('Directories', 'photos'))
+	photo = config.get('Directories', 'photos') + os.sep + random.choice(photos)
+	print photo
+	return send_file(photo)
+
 
 def setupNetwork():
 	extConfig = ConfigParser.ConfigParser()
@@ -39,5 +51,5 @@ if __name__ == "__main__":
 	config.readfp(open('settings.config'))
 	setupNetwork()
 	setupDirectories()
-	# app.debug = True
+	app.debug = True
 	app.run(host='0.0.0.0')
