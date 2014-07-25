@@ -1,2 +1,2 @@
-[ExternalConfig]
-path = ./gifbooth.config
+[Directories]
+path = ./photos
