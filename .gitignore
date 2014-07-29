@@ -1,2 +1,5 @@
 settings.config
 photos/
+rpi_images/
+*.img
+.DS_Store
